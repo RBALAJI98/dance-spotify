@@ -14,7 +14,8 @@ class App extends Component {
     }
     this.state = {
       loggedIn: token ? true : false,
-      nowPlaying: {name:'Not Checked', albumArt: ''}
+      nowPlaying: {name:'Not Checked', albumArt: ''},
+      topTracks : []
     }
   }
   getHashParams() {
@@ -34,6 +35,7 @@ class App extends Component {
         <a href='http://localhost:8888/login' > Login to Spotify </a>
         <div>
           Now Playing: {this.state.nowPlaying.name}
+          my tracks: {this.state.topTracks}
         </div>
         <div>
         <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
@@ -42,7 +44,7 @@ class App extends Component {
       </div>
 
       { this.state.loggedIn &&
-        <button onClick={() => this.getNowPlaying()}>
+        <button onClick={() => {this.getNowPlaying(); this.getTopTracks()}}>
           Check Now Playing
         </button>
       }
@@ -61,6 +63,23 @@ class App extends Component {
             }
         });
       })
+  }
+
+  getTopTracks(){
+    var tempTracks = [];
+    spotifyApi.getMyTopTracks()
+    .then((response) => {
+      
+      var items = response.items.map(function(track){ tempTracks.push(track.name + " ");} );
+
+     
+
+      this.setState({
+        topTracks: tempTracks
+      });
+    })
+
+    console.log(tempTracks);
   }
 }
 
