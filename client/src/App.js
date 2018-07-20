@@ -4,8 +4,10 @@ import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { Button } from 'reactstrap';
 
+
+
 const spotifyApi = new SpotifyWebApi();
-//http://localhost:8888/login
+
 
 class App extends Component {
   constructor(){
@@ -47,7 +49,9 @@ class App extends Component {
       
         {!this.state.loggedIn &&
         <div style={centered}>
-          <Button color="success" size="lg">Login with Spotify</Button>{' '}
+       
+          <Button  href="http://localhost:8888/login" color="success" onClickcolor="success" size="lg">Login with Spotify</Button>
+        
         </div>
         }
 
@@ -62,15 +66,19 @@ class App extends Component {
         }
         
 
+      <div style={centered}>
       { this.state.loggedIn &&
         <Button onClick={() => {this.getTopTracks(); this.setState({searched: true})}}>
           Check Now Playing
         </Button>
       }
+      </div>
       
       </div>
     );
   }
+
+  
 
   getNowPlaying(){
     spotifyApi.getMyCurrentPlaybackState()
