@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
+import { Button } from 'reactstrap';
+
 const spotifyApi = new SpotifyWebApi();
+//http://localhost:8888/login
 
 class App extends Component {
   constructor(){
@@ -14,7 +17,7 @@ class App extends Component {
     }
     this.state = {
       loggedIn: token ? true : false,
-      nowPlaying: {name:'Not Checked', albumArt: ''},
+      searched: false,
       topTracks : []
     }
   }
@@ -29,24 +32,40 @@ class App extends Component {
     }
     return hashParams;
   }
+
+  
+
+
   render() {
     return (
+
+      
+
+
       <div className="App">
-        <a href='http://localhost:8888/login' > Login to Spotify </a>
-        <div>
-          Now Playing: {this.state.nowPlaying.name}
-          my tracks: {this.state.topTracks}
+
+      
+        {!this.state.loggedIn &&
+        <div style={centered}>
+          <Button color="success" size="lg">Login with Spotify</Button>{' '}
         </div>
+        }
+
+      
+          
+       
+      
+        {this.state.searched &&
         <div>
-        <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
-      
-      
-      </div>
+                    my tracks: {this.state.topTracks}
+        </div>
+        }
+        
 
       { this.state.loggedIn &&
-        <button onClick={() => {this.getNowPlaying(); this.getTopTracks()}}>
+        <Button onClick={() => {this.getTopTracks(); this.setState({searched: true})}}>
           Check Now Playing
-        </button>
+        </Button>
       }
       
       </div>
@@ -81,8 +100,26 @@ class App extends Component {
 
     console.log(tempTracks);
   }
+
+  
+
+  
 }
 
 
+const centered = {
+  position: "absolute", /* or absolute */
+  top: "50%" ,
+  right: "45%" ,
+  
+}
+
+const background={
+
+  color: "red",
+}
+
 
 export default App;
+
+
